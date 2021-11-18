@@ -1,0 +1,73 @@
+.growing-pos {
+    position: relative; 
+    top:-30px; 
+}
+
+.growing {
+    color:ghostwhite; 
+    text-shadow:2px 2px 4px gray; 
+    letter-spacing:0.5px;
+}
+
+.fit { object-fit:cover; }
+.bg-gray { background-color: rgb(158, 171, 185); }
+.bg-gray-2 { background-color: #DAE0E6; }
+.highlight-border:hover { border-color: rgb(156, 156, 156) !important; }
+
+.highlight-bg:hover { 
+    background-color: rgb(177, 248, 195); 
+    border-radius: 3px;
+}
+
+.highlight-bg-dark:hover { 
+    background-color: rgb(228, 248, 233); 
+    border-radius: 3px;
+}
+
+.highlight-bg-dark-voted { 
+    background-color: rgb(228, 248, 233); 
+    border-radius: 3px;
+}
+
+.no-link, .no-link-highlight {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.no-link-highlight:hover {
+    background-color: rgb(235, 235, 235);
+    border-radius: 3px;
+}
+
+.br-line { word-break: break-all; }
+
+
+/* Overriding pagination bootstrap */
+.pagination > li > a
+{
+    background-color: white;
+    color: #404041;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: #5a5a5a;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination > .active > a
+{
+    color: white;
+    background-color: #404041 !Important;
+    border: solid 1px #404041 !Important;
+}
+
+.pagination > .active > a:hover
+{
+    background-color: #404041 !Important;
+    border: solid 1px #404041;
+}

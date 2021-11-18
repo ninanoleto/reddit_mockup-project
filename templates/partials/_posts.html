@@ -1,0 +1,63 @@
+{% load static %}
+{% load humanize %}
+
+<div class="bg-white">
+	{% for post in posts %}
+	<div class="w-100">
+		<div id="subreddits" class="border d-flex highlight-border">
+			<div class="flex-shrink-1 bg-light px-3 d-flex flex-column align-items-center justify-content-center">
+				
+				<a class="pb-1 
+				
+				{% for upvote in upvotes %}
+					{% if post.id == upvote.post.id %}
+					highlight-bg-dark-voted
+					{% else %}
+					highlight-bg
+					{% endif %}
+				{% endfor %}
+				
+				" href="/post/{{ post.id }}/upvote_post">
+					<img src="{% static 'img/upvote.png' %}" class="logo mx-1" alt="upvote" height="15" >
+					{% comment %} <form id="upvote_post" method="POST" action="{% url 'upvote_post' post.id %}">
+								{% csrf_token %}<input type="hidden">
+							</form> {% endcomment %}
+				</a>				
+
+				{% if post.upvotes.count == 0 %}
+				&#8212;
+				{% else %}
+				{{ post.upvotes.count | intcomma }}
+				{% endif %}
+			</div>
+			
+			<div class="p-2">
+				
+				{% if post.photo %}
+					<a class="no-link" href="{% url 'post' post.subreddit post.id %}"><img class="bg-image rounded fit" height="95" width="135" src="{{ post.photo.url }}"></a>
+				{% else %} 
+					<div class="bg-light py-4 px-5 rounded">
+						<a class="no-link" href="{% url 'post' post.subreddit post.id %}"><img class="bg-image" src="{% static 'img/paper-plane.png' %}" alt="Paper plane" width="40" height="40"></a>
+					</div>
+				{% endif %}		
+			</div>
+			<div class="p-2 br-line">
+				<a class="no-link" href="{% url 'post' post.subreddit post.id %}">
+					<h5 class="font-weight-normal m-0">{{ post.title }}</h5>
+					<a class="pr-2" href="{% url 'subreddit' post.subreddit %}">/{{ post.subreddit }}</a>&middot;	Posted by <a class="pr-2 text-secondary no-link" href="">/{{ post.user }}</a>
+					<br><a class="text-secondary" href="{% url 'post' post.subreddit post.id %}">{{ post.pub_date | naturaltime }}</a>
+					<div class="pt-2">
+							<a class="no-link-highlight px-2 py-1" href="{% url 'post' post.subreddit post.id %}"><img class="mr-2" src="{% static 'img/comment.png' %}" width="20" height="20"> 
+							{{ post.commented.count }} Comment{% if post.commented.count == 1 %}</a>{% else %}s</a>{% endif %}							
+					</div>
+				</a>  
+			</div>
+			
+		</div>
+		
+	</div>
+	{% endfor %}
+</div>
+
+<!-- Pagination -->
+{% include 'partials/_pagination.html' %}

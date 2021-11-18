@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %} | Welcome {% endblock  %}
+
+{% block content %}
+
+<!-- Flex box -->
+<div class="d-flex mx-auto container my-4">
+  <div class="container col-8 pl-0 pr-4">
+
+    <!-- Breadcrumbs -->
+    {% include 'partials/_breadc.html' %}
+    <!-- Alerts -->
+    {% include 'partials/_alerts.html' %}
+    <!-- All posts from DB -->
+    {% include 'partials/_posts.html' %}
+
+  </div>
+	
+  <!-- All communites -->
+  {% include 'partials/_subreddits.html' %}
+
+
+</div>
+
+{% endblock %}
+

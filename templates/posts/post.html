@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %} | {{ post.title }} {% endblock  %}
+
+{% block content %}
+
+<div class="container">
+	<div class="bg-gray px-5">
+		<div class="d-flex">
+			<img class="border rounded-circle border-white border-10 bg-white my-3 fit" height="50" width="50"
+			{% if post.subreddit.avatar %} src="{{ post.subreddit.avatar.url }}"
+			{% else %} src="{% static 'img/avatar-gray.png' %}"
+			{% endif %}>
+
+			<div class="mt-4 mb-2 pl-3 d-flex w-100">
+				<div class="pr-5 text-white">
+					<h2 class="font-weight-light"><a class="no-link" href="{% url 'subreddit' post.subreddit %}">/{{ post.subreddit }}</a></h2>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="">
+		<div class="d-flex bg-dark text-light py-2 px-5">
+			
+			&#124; <a class="
+			{% if has_user_voted %}
+			highlight-bg-dark-voted
+			{% else %}
+			highlight-bg-dark 
+			{% endif %}
+			align-center" href="/post/{{ post.id }}/upvote_post">
+				<img src="{% static 'img/upvote.png' %}" class="logo mx-1" alt="upvote" height="15">
+				
+				{% comment %} <form id="upvote_post" method="POST" action="{% url 'upvote_post' post.id %}">
+						{% csrf_token %}<input type="hidden">
+				</form> {% endcomment %}
+			</a> 				
+			
+			<p class="m-0 px-2">{{ post.upvotes.count | intcomma }}</p> &#124;
+			<p class="pl-4 m-0 font-weight-light">{{ post.custom_title }}</p>
+
+			{% if user.is_authenticated and user == post.user %}				
+					
+					<a class="no-link btn btn-info py-0 ml-auto" href="/s/{{ post.subreddit }}/post/{{ post.id }}/update_post">Update Post</a>
+					<form id="update_post" method="POST" action="{% url 'update_post' post.subreddit post.id %}">
+							{% csrf_token %}<input type="hidden">
+					</form>
+					
+					<a class="no-link btn btn-danger py-0 ml-3" href="/post/delete/{{ post.id }}">Delete Post</a>
+					<form id="delete_post" method="POST" action="{% url 'delete_post' post.id %}">
+							{% csrf_token %}<input type="hidden">
+					</form>
+
+			{% endif %}
+		
+		</div>
+
+		<div class="bg-gray-2 px-5 py-4 min-vh-100">
+			<div class="col-10 p-0">
+				<!-- Alerts -->
+				{% include 'partials/_alerts.html' %}
+			</div>
+			<div class="p-3 border rounded bg-white col-10 min-vh-100">
+				<div class="d-flex w-100">
+					<div class="flex-shrink-1 pr-4 d-flex flex-column align-items-center justify-content-start">
+
+						<a class="pb-1 
+						{% if has_user_voted %}
+						highlight-bg-dark-voted
+						{% else %}
+						highlight-bg
+						{% endif %}
+						
+						" href="/post/{{ post.id }}/upvote_post">
+							<img src="{% static 'img/upvote.png' %}" class="logo mx-1" alt="upvote" height="15" >
+							<form id="upvote_post" method="POST" action="{% url 'upvote_post' post.id %}">
+								{% csrf_token %}<input type="hidden">
+							</form>
+						</a>
+						{{ post.upvotes.count | intcomma }}
+						
+					</div>
+
+					<div class="w-100 br-line">
+						<div class="text-secondary pr-5">
+							Posted by <a class="pr-4 text-secondary" href="#">/{{ post.user }}</a><a class="text-secondary" href="{% url 'post' subreddit post.id %}"><img height="15" src="{% static 'img/clock.png' %}"> {{ post.pub_date | naturaltime }}</a>
+							<h4 class="m-0 pt-1 pb-3 text-dark">{{ post.title }}</h4>
+						</div>
+						<div class="mb-4">
+							{% if post.photo %}
+							<img class="mx-auto d-block pr-0 mw-100" src="{{ post.photo.url }}">
+							{% endif %}
+							{% if post.content %}
+							<p class="pt-4 mx-3"> {{ post.content | linebreaksbr }}</p>
+							{% endif %}
+							{% if post.compare_pub_date != post.compare_update_date %}
+							<p class="mx-3"><small>This post was edited</small></p>
+							{% endif %}
+							<div class="mt-5">
+								<!-- Comments -->
+								{% include 'partials/_comments.html' %}
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div> 
+</div>
+
+{% endblock %}
