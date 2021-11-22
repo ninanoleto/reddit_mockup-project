@@ -1,4 +1,4 @@
-# Reddit Mockup
+# Reddit Clone
 
 ## About
 Simple Reddit clone with a reduced features set. Built to develop a better understand of how the knowledge gained from learning coding fundamentals and concepts from Python 3 would translate in a web development environment.
